@@ -7,6 +7,6 @@
  java main
  ```
 
- <a href="https://drive.google.com/file/d/1sqLznk7D9tr4kuc9-wXQiNdsSN9OsM5t/view?usp=sharing" target="_blank">Project Design</a>
+ View the <a href="https://drive.google.com/file/d/1sqLznk7D9tr4kuc9-wXQiNdsSN9OsM5t/view?usp=sharing" target="_blank">project design</a>
 
 *Note: The program may not compile on your machine based on the fact that we used a local SQL Database*

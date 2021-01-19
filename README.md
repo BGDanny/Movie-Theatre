@@ -7,5 +7,5 @@
  java -classpath ".;sqlite-jdbc-3.32.3.2.jar" Main  
  ```
 
- View the <a href="https://drive.google.com/file/d/1sqLznk7D9tr4kuc9-wXQiNdsSN9OsM5t/view?usp=sharing" target="_blank">project design</a>
+ <a href="https://drive.google.com/file/d/1sqLznk7D9tr4kuc9-wXQiNdsSN9OsM5t/view?usp=sharing" target="_blank">Project Design</a>
 

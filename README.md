@@ -26,13 +26,13 @@
 
  <a href="https://drive.google.com/file/d/1sqLznk7D9tr4kuc9-wXQiNdsSN9OsM5t/view?usp=sharing" target="_blank">Project Design</a>
 
- ## Note
+## Note
 
- - Enlarge this window manually to reveal all the "Accept" buttons
+ - Enlarge this window manually to reveal all the Accept buttons
 
  ![Booking](/assets/image/booking.png)
 
- - Click each "Accept" button after selecting from the dropdown menu to proceed
+ - Click each Accept button after selecting from the dropdown menu to proceed
 
  ![accept](/assets/image/accept.png)
 

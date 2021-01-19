@@ -16,9 +16,11 @@
 
  3. Run the following commands
 
-```java
- javac *.java
- java -classpath ".;sqlite-jdbc-3.32.3.2.jar" Main  
+```
+ > javac *.java
+ > java -classpath ".;sqlite-jdbc-3.32.3.2.jar" Main  # in Windows
+ or
+ > java -classpath ".:sqlite-jdbc-3.32.3.2.jar" Main  # in Mac or Linux
  ```
 ## Misc
 

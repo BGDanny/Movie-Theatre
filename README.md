@@ -2,7 +2,15 @@
 ### Created by [Junhao Xue](mailto:junhao.xue1@ucalgary.ca), [Matthew Wells](mailto:matthew.wells@ucalgary.ca), [Minh Vo](mailto:minh.vo1@ucalgary.ca) and [Michael Vassilev](mailto:michael.vassilev1@ucalgary.ca)		
 
 ### How to run the program
- ```java
+ Clone the repository or download and extract the zip file
+
+ Go into the src folder
+
+`cd Movie-Theatre-master/src`
+
+ Run the following commands
+
+```java
  javac *.java
  java -classpath ".;sqlite-jdbc-3.32.3.2.jar" Main  
  ```

@@ -1,10 +1,16 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 /**
- * This class displays theatres, movies, showtimes, and seats for users to
- * select
  * 
  * @author Michael Vassilev, Minh Vo, Matthew Wells, Junhao Xue
  */
@@ -24,15 +30,15 @@ public class SelectionFrame extends JFrame {
 	private JButton confirm_movie = new JButton("Accept");
 	private JButton confirm_showtime = new JButton("Accept");
 	private JButton confirm_seat = new JButton("Accept");
-	private JComboBox theatre_choice = new JComboBox(theatre_list);
-	private JComboBox movie_choice = new JComboBox(movie_list);
-	private JComboBox time_choice = new JComboBox(time_list);
-	private JComboBox seat_choice = new JComboBox(seat_list);
+	private JComboBox<String> theatre_choice = new JComboBox<String>(theatre_list);
+	private JComboBox<String> movie_choice = new JComboBox<String>(movie_list);
+	private JComboBox<String> time_choice = new JComboBox<String>(time_list);
+	private JComboBox<String> seat_choice = new JComboBox<String>(seat_list);
 	private JLabel cost = new JLabel("Total Cost:");
 
 	public SelectionFrame() {
 		super("Book Ticket");
-		setSize(700, 600);
+		setSize(400, 400);
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// panel for title
@@ -218,34 +224,23 @@ public class SelectionFrame extends JFrame {
 		}
 	}
 
-	/**
-	 * add private seats to combo box using a helper function
-	 * 
-	 * @param seats is a string array of seats
-	 */
-	public void addPrivateSeat(String[] seats, int remaining) {
-		for (int i = 0; i < remaining; i++) {
-			addSeat(seats[i]);
-		}
-	}
-
 	// helper function
-	public void addTheatre(String theatre) {
+	private void addTheatre(String theatre) {
 		theatre_choice.addItem(theatre);
 	}
 
 	// helper function
-	public void addMovie(String movie) {
+	private void addMovie(String movie) {
 		movie_choice.addItem(movie);
 	}
 
 	// helper function
-	public void addTime(String showtime) {
+	private void addTime(String showtime) {
 		time_choice.addItem(showtime);
 	}
 
 	// helper function
-	public void addSeat(String seat) {
+	private void addSeat(String seat) {
 		seat_choice.addItem(seat);
 	}
 
@@ -264,58 +259,44 @@ public class SelectionFrame extends JFrame {
 		return str;
 	}
 
-	/**
-	 * reset all lists no null
-	 * 
-	 * @param
-	 */
+	public void resetTheatreList() {
+		theatre_choice.removeAllItems();
+	}
+
+	public void resetMovieList() {
+		movie_choice.removeAllItems();
+	}
+
+	public void resetShowtimeList() {
+		time_choice.removeAllItems();
+	}
+
+	public void resetSeatList() {
+		seat_choice.removeAllItems();
+	}
+
 	public void resetAllList() {
 		resetMovieList();
 		resetShowtimeList();
 		resetSeatList();
 	}
 
-	/**
-	 * set the total cost
-	 * 
-	 * @param cst is the string representation of the cost
-	 */
 	public void setCost(String cst) {
 		cost.setText("Total cost: $" + cst);
 	}
 
-	/**
-	 * return the current chosen theatre
-	 * 
-	 * @param
-	 */
 	public String getCurrentTheatre() {
 		return (String) theatre_choice.getItemAt(theatre_choice.getSelectedIndex());
 	}
 
-	/**
-	 * return the current chosen movie
-	 * 
-	 * @param
-	 */
 	public String getCurrentMovie() {
 		return (String) movie_choice.getItemAt(movie_choice.getSelectedIndex());
 	}
 
-	/**
-	 * return the current chosen theatre
-	 * 
-	 * @param
-	 */
 	public String getCurrentSeat() {
 		return (String) seat_choice.getItemAt(seat_choice.getSelectedIndex());
 	}
 
-	/**
-	 * return the current chosen theatre
-	 * 
-	 * @param
-	 */
 	public String getCurrentShowtime() {
 		return (String) time_choice.getItemAt(time_choice.getSelectedIndex());
 	}
@@ -342,22 +323,6 @@ public class SelectionFrame extends JFrame {
 
 	public JButton getConfirmSeat() {
 		return this.confirm_seat;
-	}
-
-	public void resetTheatreList() {
-		theatre_choice.removeAllItems();
-	}
-
-	public void resetMovieList() {
-		movie_choice.removeAllItems();
-	}
-
-	public void resetShowtimeList() {
-		time_choice.removeAllItems();
-	}
-
-	public void resetSeatList() {
-		seat_choice.removeAllItems();
 	}
 
 }

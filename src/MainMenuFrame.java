@@ -1,6 +1,14 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * Main menu class, what users see when they first run the program
@@ -8,9 +16,9 @@ import java.awt.event.ActionListener;
  * @author Michael Vassilev, Minh Vo, Matthew Wells, Junhao Xue
  */
 
-// GUI class for main menu
+//GUI class for main menu
 public class MainMenuFrame extends JFrame {
-	private JLabel cinema = new JLabel("Welcome to Cinema Name");
+	private JLabel cinema = new JLabel("Welcome to Cineflex");
 	private JButton guest = new JButton("Continue as guest");
 	private JButton register = new JButton("Register");
 	private JButton signin = new JButton("Sign in");

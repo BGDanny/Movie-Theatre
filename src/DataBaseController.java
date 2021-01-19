@@ -1,5 +1,9 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.*;
 
 /**
  * Controller class responsible for managing interactions between the system and
@@ -7,7 +11,7 @@ import java.sql.*;
  * 
  * @author Michael Vassilev, Minh Vo, Matthew Wells, Junhao Xue
  */
-public class DataBaseController implements DBCredentials {
+public class DataBaseController {
 	/*
 	 * the connection to the database
 	 */
@@ -30,9 +34,7 @@ public class DataBaseController implements DBCredentials {
 	 */
 	public void initializeConnection() {
 		try {
-			Driver driver = new com.mysql.cj.jdbc.Driver();
-			DriverManager.registerDriver(driver);
-			conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+			conn = DriverManager.getConnection("jdbc:sqlite:theatre.db");
 		} catch (SQLException e) {
 			System.out.println("Problem, not connected");
 			e.printStackTrace();
@@ -52,13 +54,9 @@ public class DataBaseController implements DBCredentials {
 		}
 	}
 
-	/**
-	 * adds a ticket to the Ticket table in the database
-	 * 
-	 * @param theTicket is a Ticket object
-	 */
+	// add a ticket to the database
 	public void addTicket(Ticket theTicket) {
-		String query = "insert into Ticket values(?,?,?,?,?,?,?,?,?,?,?)";
+		String query = "insert into Ticket values(?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pStat = null;
 		try {
 			pStat = conn.prepareStatement(query);
@@ -72,7 +70,6 @@ public class DataBaseController implements DBCredentials {
 			pStat.setInt(8, theTicket.getTheSeat().getColumn());
 			pStat.setString(9, theTicket.getTheSeat().getType());
 			pStat.setDouble(10, theTicket.getTheSeat().getCost());
-			pStat.setInt(11, theTicket.getTheSeat().getID());
 			int i = pStat.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -86,13 +83,7 @@ public class DataBaseController implements DBCredentials {
 		}
 	}
 
-	/**
-	 * finds a ticket in the database using the ticketID and returns the ticket
-	 * object
-	 * 
-	 * @param ticketID is a ticket id
-	 * @return
-	 */
+	// get a ticket from the database
 	public Ticket getTicket(int ticketID) {
 		int ticketNum = 0;
 		String movieName = "";
@@ -104,12 +95,11 @@ public class DataBaseController implements DBCredentials {
 		int column = 0;
 		String type = "";
 		double cost = 0;
-		int ID = 0;
-		String query = "select * from ticket";
+		String query = "select * from Ticket";
 		PreparedStatement pStat = null;
 		try {
 			pStat = conn.prepareStatement(query);
-			rs = pStat.executeQuery(query);
+			rs = pStat.executeQuery();
 			while (rs.next()) {
 				if (ticketID == rs.getInt(1)) {
 					ticketNum = rs.getInt(1);
@@ -122,7 +112,6 @@ public class DataBaseController implements DBCredentials {
 					column = rs.getInt(8);
 					type = rs.getString(9);
 					cost = rs.getDouble(10);
-					ID = rs.getInt(11);
 					break;
 				}
 			}
@@ -136,16 +125,11 @@ public class DataBaseController implements DBCredentials {
 					e.printStackTrace();
 				}
 		}
-		Ticket theTicket = new Ticket(ticketNum, movieName, month, day, hour, minute, row, column, type, cost, ID);
+		Ticket theTicket = new Ticket(ticketNum, movieName, month, day, hour, minute, row, column, type, cost);
 		return theTicket;
 	}
 
-	/**
-	 * removes a ticket with the given ticket id from the Ticket table * in the
-	 * database
-	 * 
-	 * @param ticketID is a ticket id
-	 */
+	// remove a ticket from the database
 	public void removeTicket(int ticketID) {
 		String query = "delete from Ticket where TicketNumber=?";
 		PreparedStatement pStat = null;
@@ -165,26 +149,18 @@ public class DataBaseController implements DBCredentials {
 		}
 	}
 
-	/**
-	 * verifies the login information entered by the user and returns a
-	 * registeredUser object
-	 * 
-	 * @param username is the users username
-	 * @param pasword  is the users password
-	 * @return
-	 */
-	public RegisteredUser verifyUser(String username, String password) {
-		RegisteredUser ru = null;
-		String query = "select * from users";
+	// verify the user information while login
+	public boolean verifyUser(String username, String password) {
+		boolean confirm = false;
+		String query = "select * from Users";
 		PreparedStatement pStat = null;
 		try {
 			pStat = conn.prepareStatement(query);
-			rs = pStat.executeQuery(query);
+			rs = pStat.executeQuery();
 			while (rs.next()) {
 
 				if (username.equals(rs.getString(1)) && password.equals(rs.getString(2))) {
-					ru = new RegisteredUser(null, null, null, null, rs.getString(3), rs.getString(5), rs.getString(6),
-							rs.getFloat(4), rs.getString(7), rs.getString(8), rs.getString(10));
+					confirm = true;
 					break;
 				}
 			}
@@ -198,16 +174,10 @@ public class DataBaseController implements DBCredentials {
 					e.printStackTrace();
 				}
 		}
-		return ru;
+		return confirm;
 	}
 
-	/**
-	 * adds a new user to the User table in the database
-	 * 
-	 * @param username is the users username
-	 * @param pasword  is the users password
-	 * @param theUser  is the User object
-	 */
+	// register and add information of the user to the database
 	public void registerUser(String username, String password, RegisteredUser theUser) {
 		String query = "insert into Users values(?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pStat = null;
@@ -219,10 +189,10 @@ public class DataBaseController implements DBCredentials {
 			pStat.setFloat(4, theUser.getPhoneNumber());
 			pStat.setString(5, theUser.getAddress());
 			pStat.setString(6, theUser.getEmailAddress());
-			pStat.setString(7, theUser.getType());
-			pStat.setString(8, theUser.getCardNumber());
-			pStat.setString(9, theUser.getName());
-			pStat.setString(10, theUser.getExpiryDate());
+			pStat.setString(7, theUser.getPaymentController().getType());
+			pStat.setString(8, theUser.getPaymentController().getCardNumber());
+			pStat.setString(9, theUser.getPaymentController().getNameOnCard());
+			pStat.setString(10, theUser.getPaymentController().getExpiryDate());
 			int i = pStat.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -236,19 +206,19 @@ public class DataBaseController implements DBCredentials {
 		}
 	}
 
-	/**
-	 * updates the availability of the given seat in the Seat table in the database
-	 * 
-	 * @param theSeat is the Seat object
-	 * @param a       specifies whether the seat is booked or not
-	 */
-	public void updateSeat(Seat theSeat, int a) {
-		String query = "UPDATE seat SET Availability=? WHERE ID=?";
+	public void updateSeat(Seat theSeat) {
+		String query = "update Seat set Availability=? where Row=? and Column=? and Month=? and Day=? and Hour=? and Minute=? and MovieName=?";
 		PreparedStatement pStat = null;
 		try {
 			pStat = conn.prepareStatement(query);
-			pStat.setInt(1, a);
-			pStat.setInt(2, theSeat.getID());
+			pStat.setInt(1, 1);
+			pStat.setInt(2, theSeat.getRow());
+			pStat.setInt(3, theSeat.getColumn());
+			pStat.setInt(4, theSeat.getDate().getMonth());
+			pStat.setInt(5, theSeat.getDate().getDay());
+			pStat.setInt(6, theSeat.getDate().getHour());
+			pStat.setInt(7, theSeat.getDate().getMinute());
+			pStat.setString(8, theSeat.getMovieName());
 			int i = pStat.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -262,21 +232,15 @@ public class DataBaseController implements DBCredentials {
 		}
 	}
 
-	/**
-	 * Reads in all the Seats from the Seat table in the database and returns them
-	 * in an ArrayList
-	 * 
-	 * @return
-	 */
+	// read all seats from the database
 	public ArrayList<Seat> readSeats() {
 		ArrayList<Seat> seats = new ArrayList<Seat>();
-		String query = "SELECT * FROM SEAT";
+		String query = "SELECT * FROM Seat";
 		PreparedStatement pStat = null;
 		try {
 			pStat = conn.prepareStatement(query);
-			rs = pStat.executeQuery(query);
+			rs = pStat.executeQuery();
 			while (rs.next()) {
-				int id = rs.getInt("ID");
 				int row = rs.getInt("Row");
 				int column = rs.getInt("Column");
 				String type = rs.getString("Type");
@@ -290,7 +254,7 @@ public class DataBaseController implements DBCredentials {
 				boolean av = true;
 				if (avail == 1)
 					av = false;
-				seats.add(new Seat(id, row, column, type, cost, month, day, hour, minute, movieName, av));
+				seats.add(new Seat(row, column, type, cost, month, day, hour, minute, movieName, av));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -305,19 +269,14 @@ public class DataBaseController implements DBCredentials {
 		return seats;
 	}
 
-	/**
-	 * Reads in all the Showtimes from the Showtime table in the database and
-	 * returns them in an ArrayList
-	 * 
-	 * @return
-	 */
+	// read the showtimes from the database
 	public ArrayList<Showtime> readShowTimes() {
 		ArrayList<Showtime> showtimes = new ArrayList<Showtime>();
-		String query = "SELECT * FROM SHOWTIME";
+		String query = "SELECT * FROM Showtime";
 		PreparedStatement pStat = null;
 		try {
 			pStat = conn.prepareStatement(query);
-			rs = pStat.executeQuery(query);
+			rs = pStat.executeQuery();
 			while (rs.next()) {
 				int month = rs.getInt("Month");
 				int day = rs.getInt("Day");
@@ -339,23 +298,17 @@ public class DataBaseController implements DBCredentials {
 		return showtimes;
 	}
 
-	/**
-	 * Reads in all the Movies from the Movie table in the database and returns them
-	 * in an ArrayList
-	 * 
-	 * @return
-	 */
+	// read all movies from the database
 	public ArrayList<Movie> readMovies() {
 		ArrayList<Movie> movies = new ArrayList<Movie>();
-		String query = "SELECT * FROM MOVIE";
+		String query = "SELECT * FROM Movie";
 		PreparedStatement pStat = null;
 		try {
 			pStat = conn.prepareStatement(query);
-			rs = pStat.executeQuery(query);
+			rs = pStat.executeQuery();
 			while (rs.next()) {
 				String movieName = rs.getString("Name");
-				int isPublic = rs.getInt("Public");
-				movies.add(new Movie(movieName, isPublic));
+				movies.add(new Movie(movieName));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -370,11 +323,7 @@ public class DataBaseController implements DBCredentials {
 		return movies;
 	}
 
-	/**
-	 * adds a credit to the Credit table in the database
-	 * 
-	 * @param theCredit is a Credit object
-	 */
+	// add the record of credit to the database
 	public void addCredit(Credit theCredit) {
 		String query = "insert into Credit values(?,?)";
 		PreparedStatement pStat = null;
@@ -395,20 +344,14 @@ public class DataBaseController implements DBCredentials {
 		}
 	}
 
-	/**
-	 * finds a credit in the database using the id and returns the value of the
-	 * credit
-	 * 
-	 * @param id is a creditid
-	 * @return
-	 */
+	// get the value of a typical credit coupon
 	public double getCreditValue(String id) {
 		double value = 0;
 		String query = "select * from credit";
 		PreparedStatement pStat = null;
 		try {
 			pStat = conn.prepareStatement(query);
-			rs = pStat.executeQuery(query);
+			rs = pStat.executeQuery();
 			while (rs.next()) {
 				if (id.equals(rs.getString(1))) {
 					value = rs.getDouble(2);
@@ -428,12 +371,7 @@ public class DataBaseController implements DBCredentials {
 		return value;
 	}
 
-	/**
-	 * removes a credit with the given credit id from the Credit table * in the
-	 * database
-	 * 
-	 * @param id is a credit id
-	 */
+	// remove credit from the database
 	public void removeCredit(int id) {
 		String query = "delete from Credit where ID=?";
 		PreparedStatement pStat = null;
@@ -441,33 +379,6 @@ public class DataBaseController implements DBCredentials {
 
 			pStat = conn.prepareStatement(query);
 			pStat.setInt(1, id);
-			int i = pStat.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (pStat != null)
-				try {
-					pStat.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-		}
-	}
-
-	/**
-	 * updates the value of the credit with the given id in the Credit table in the
-	 * database
-	 * 
-	 * @param id       is the credit id
-	 * @param newValue is the new value of the credit
-	 */
-	public void updateCredit(int id, double newValue) {
-		String query = "UPDATE credit SET Value=? WHERE ID=?";
-		PreparedStatement pStat = null;
-		try {
-			pStat = conn.prepareStatement(query);
-			pStat.setDouble(1, newValue);
-			pStat.setInt(2, id);
 			int i = pStat.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

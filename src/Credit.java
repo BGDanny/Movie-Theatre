@@ -7,10 +7,6 @@ public class Credit{
   private int id;
   private double value;
 
-  /**
-  * Constructor that takes the ID number and value of a new credit to be created,
-  * and sets them to the relavent variables.
-  */
   public Credit(int theID, double theValue){
     id = theID;
     value = theValue;

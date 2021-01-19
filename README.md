@@ -32,7 +32,7 @@
 
  ![Booking](/assets/image/booking.png)
 
- - Click each Accept button after selecting from the dropdown menu to proceed
+ - Click on each Accept button after selecting from the dropdown menu to proceed
 
  ![accept](/assets/image/accept.png)
 

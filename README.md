@@ -10,11 +10,14 @@
 - Java Swing
 
 ## How to run the program
- 1. Clone the repository or download and extract the zip file
 
- 2. Go into the src folder by using `cd Movie-Theatre-master/src`
+ 1. Make sure you have <a href="https://www.java.com/en/" target="_blank">Java 8 or above</a> installed   
 
- 3. Run the following commands
+ 2. Clone the repository or download and extract the zip file
+
+ 3. Go into the src folder by using `cd Movie-Theatre-master/src`
+
+ 4. Run the following commands
 
 ```
  > javac *.java

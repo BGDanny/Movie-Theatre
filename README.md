@@ -1,19 +1,26 @@
-### A java project simulating the system for booking tickets at a movie theatre
-### Created by [Junhao Xue](mailto:junhao.xue1@ucalgary.ca), [Matthew Wells](mailto:matthew.wells@ucalgary.ca), [Minh Vo](mailto:minh.vo1@ucalgary.ca) and [Michael Vassilev](mailto:michael.vassilev1@ucalgary.ca)		
+# Movie Theatre Ticket Reservation System
 
-### How to run the program
- Clone the repository or download and extract the zip file
+ A java project simulating the real-life system for booking tickets at a movie theatre. Features include browsing movies, showtimes and seats, as well as cancelling tickets and registering users.
+## Created By 
+[Junhao Xue](mailto:junhao.xue1@ucalgary.ca), [Matthew Wells](mailto:matthew.wells@ucalgary.ca), [Minh Vo](mailto:minh.vo1@ucalgary.ca) and [Michael Vassilev](mailto:michael.vassilev1@ucalgary.ca)		
 
- Go into the src folder
+## Built With
+- [SQLite](https://www.sqlite.org/index.html)
+- Java AWT
+- Java Swing
 
-`cd Movie-Theatre-master/src`
+## How to run the program
+ 1. Clone the repository or download and extract the zip file
 
- Run the following commands
+ 2. Go into the src folder by using `cd Movie-Theatre-master/src`
+
+ 3. Run the following commands
 
 ```java
  javac *.java
  java -classpath ".;sqlite-jdbc-3.32.3.2.jar" Main  
  ```
+## Misc
 
  <a href="https://drive.google.com/file/d/1sqLznk7D9tr4kuc9-wXQiNdsSN9OsM5t/view?usp=sharing" target="_blank">Project Design</a>
 

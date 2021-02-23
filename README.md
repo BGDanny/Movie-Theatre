@@ -1,6 +1,6 @@
 # Movie Theatre Ticket Reservation System
 
- A java project simulating the real-life system for booking tickets at a movie theatre. Features include browsing movies, showtimes and seats, as well as cancelling tickets and registering users.
+ A desktop application for users to book movie tickets. Features include browsing movies, showtimes and seats, as well as cancelling tickets and registering users.
 ## Created By 
 [Junhao Xue](mailto:junhao.xue1@ucalgary.ca), [Matthew Wells](mailto:matthew.wells@ucalgary.ca), [Minh Vo](mailto:minh.vo1@ucalgary.ca) and [Michael Vassilev](mailto:michael.vassilev1@ucalgary.ca)		
 

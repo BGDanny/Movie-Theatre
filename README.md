@@ -15,7 +15,7 @@
 
  2. Clone the repository or download and extract the zip file
 
- 3. Go into the src folder by using `cd Movie-Theatre-master/src`
+ 3. Go into the src folder by using `cd Movie-Theatre/src`
 
  4. Run the following commands
 
